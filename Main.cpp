@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
   std::cout << "         'M' - Randomize (Medium Clusters)" << std::endl;
   std::cout << "         'Q' - Randomize (Quiescence)" << std::endl;
   std::cout << "         'S' - Randomize (Small Clusters)" << std::endl;
+  std::cout << "         'W' - Toggle Wrap-Around" << std::endl;
   std::cout << "       Enter - Keep rules, but re-seed particles" << std::endl;
   std::cout << "       Space - Hold for slow-motion" << std::endl;
   std::cout << "         Tab - Print current parameters to console" << std::endl;
@@ -112,6 +113,8 @@ int main(int argc, char *argv[]) {
         } else if (keycode == sf::Keyboard::S) { //Small Clusters
           universe.SetPopulation(6, 600);
           universe.ReSeed(-0.005f, 0.01f, 10.0f, 10.0f, 20.0f, 50.0f, 0.01f, false);
+        } else if (keycode == sf::Keyboard::W) {
+          universe.ToggleWrap();
         } else if (keycode == sf::Keyboard::Enter) {
           universe.SetRandomParticles();
         } else if (keycode == sf::Keyboard::Tab) {

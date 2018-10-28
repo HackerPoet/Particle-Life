@@ -13,6 +13,7 @@ public:
   void SetSize(float width, float height) { m_width = width; m_height = height; }
   void SetRandomTypes();
   void SetRandomParticles();
+  void ToggleWrap() { m_wrap = !m_wrap; }
 
   void Step();
   void Draw(sf::RenderWindow& window, float opacity) const;
@@ -29,6 +30,7 @@ private:
   float m_center_x;
   float m_center_y;
   float m_zoom;
+  bool m_wrap;
 
   std::vector<Particle> m_particles;
   ParticleTypes m_types;

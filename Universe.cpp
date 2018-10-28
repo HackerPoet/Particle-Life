@@ -24,6 +24,7 @@ Universe::Universe(size_t num_types, size_t num_particles, int width, int height
   m_maxr_upper = 0.0f;
   m_friction = 0.0f;
   m_flat_force = false;
+  m_wrap = false;
 }
 
 void Universe::ReSeed(float attract_mean, float attract_std, float minr_lower, float minr_upper,
@@ -92,12 +93,27 @@ void Universe::Step() {
       //Other particle
       const Particle& q = m_particles[j];
 
-      //Get distance squared
+      //Get deltas
       float dx = q.x - p.x;
       float dy = q.y - p.y;
+      if (m_wrap) {
+        if (dx > m_width*0.5f) {
+          dx -= m_width;
+        } else if (dx < -m_width*0.5f) {
+          dx += m_width;
+        }
+        if (dy > m_height*0.5f) {
+          dy -= m_height;
+        } else if (dy < -m_height*0.5f) {
+          dy += m_height;
+        }
+      }
+
+      //Get distance squared
       const float r2 = dx*dx + dy*dy;
       const float minR = m_types.MinR(p.type, q.type);
       const float maxR = m_types.MaxR(p.type, q.type);
+
       if (r2 > maxR*maxR || r2 < 0.01f) {
         continue;
       }
@@ -139,19 +155,32 @@ void Universe::Step() {
     p.vy *= (1.0f - m_friction);
 
     //Check for wall collisions
-    if (p.x <= DIAMETER) {
-      p.vx = -p.vx;
-      p.x = DIAMETER;
-    } else if (p.x >= m_width - DIAMETER) {
-      p.vx = -p.vx;
-      p.x = m_width - DIAMETER;
-    }
-    if (p.y <= DIAMETER) {
-      p.vy = -p.vy;
-      p.y = DIAMETER;
-    } else if (p.y >= m_height - DIAMETER) {
-      p.vy = -p.vy;
-      p.y = m_height - DIAMETER;
+    if (m_wrap) {
+      if (p.x < 0) {
+        p.x += m_width;
+      } else if (p.x >= m_width) {
+        p.x -= m_width;
+      }
+      if (p.y < 0) {
+        p.y += m_height;
+      } else if (p.y >= m_height) {
+        p.y -= m_height;
+      }
+    } else {
+      if (p.x <= DIAMETER) {
+        p.vx = -p.vx;
+        p.x = DIAMETER;
+      } else if (p.x >= m_width - DIAMETER) {
+        p.vx = -p.vx;
+        p.x = m_width - DIAMETER;
+      }
+      if (p.y <= DIAMETER) {
+        p.vy = -p.vy;
+        p.y = DIAMETER;
+      } else if (p.y >= m_height - DIAMETER) {
+        p.vy = -p.vy;
+        p.y = m_height - DIAMETER;
+      }
     }
   }
 }
