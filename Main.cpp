@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
           universe.ReSeed(-0.005f, 0.01f, 10.0f, 10.0f, 20.0f, 50.0f, 0.01f, false);
         } else if (keycode == sf::Keyboard::W) {
           universe.ToggleWrap();
-        } else if (keycode == sf::Keyboard::Enter) {
+        } else if (keycode == sf::Keyboard::Return) {
           universe.SetRandomParticles();
         } else if (keycode == sf::Keyboard::Tab) {
           universe.PrintParams();
