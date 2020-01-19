@@ -86,37 +86,81 @@ int main(int argc, char *argv[]) {
         } else if (keycode == sf::Keyboard::B) { //Balanced
           universe.SetPopulation(9, 400);
           universe.ReSeed(-0.02f, 0.06f, 0.0f, 20.0f, 20.0f, 70.0f, 0.05f, false);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::C) { //Chaos
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.02f, 0.04f, 0.0f, 30.0f, 30.0f, 100.0f, 0.01f, false);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::D) { //Diversity
           universe.SetPopulation(12, 400);
           universe.ReSeed(-0.01f, 0.04f, 0.0f, 20.0f, 10.0f, 60.0f, 0.05f, true);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::F) { //Frictionless
           universe.SetPopulation(6, 300);
           universe.ReSeed(0.01f, 0.005f, 10.0f, 10.0f, 10.0f, 60.0f, 0.0f, true);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::G) { //Gliders
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.0f, 0.06f, 0.0f, 20.0f, 10.0f, 50.0f, 0.1f, true);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::H) { //Homogeneity
           universe.SetPopulation(4, 400);
           universe.ReSeed(0.0f, 0.04f, 10.0f, 10.0f, 10.0f, 80.0f, 0.05f, true);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::L) { //Large Clusters
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.025f, 0.02f, 0.0f, 30.0f, 30.0f, 100.0f, 0.2f, false);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::M) { //Medium Clusters
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.02f, 0.05f, 0.0f, 20.0f, 20.0f, 50.0f, 0.05f, false);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::Q) { //Quiescence
           universe.SetPopulation(6, 300);
           universe.ReSeed(-0.02f, 0.1f, 10.0f, 20.0f, 20.0f, 60.0f, 0.2f, false);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::S) { //Small Clusters
           universe.SetPopulation(6, 600);
           universe.ReSeed(-0.005f, 0.01f, 10.0f, 10.0f, 20.0f, 50.0f, 0.01f, false);
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::W) {
           universe.ToggleWrap();
-        } else if (keycode == sf::Keyboard::Enter) {
+        } else if (keycode == sf::Keyboard::Return) {
           universe.SetRandomParticles();
+					track_index = -1;
+					cam_x_dest = window_w * 0.5f;
+					cam_y_dest = window_h * 0.5f;
+					cam_zoom_dest = 1.0f;
         } else if (keycode == sf::Keyboard::Tab) {
           universe.PrintParams();
         } else if (keycode == sf::Keyboard::Space) {
@@ -140,6 +184,10 @@ int main(int argc, char *argv[]) {
       } else if (event.type == sf::Event::MouseButtonPressed) {
         if (event.mouseButton.button == sf::Mouse::Left) {
           track_index = universe.GetIndex(event.mouseButton.x, event.mouseButton.y);
+					if (track_index == -1) {
+						const sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+						universe.ToCenter(mouse_pos.x, mouse_pos.y, cam_x_dest, cam_y_dest);
+					}
         } else if (event.mouseButton.button == sf::Mouse::Right) {
           track_index = -1;
         }
@@ -150,11 +198,47 @@ int main(int argc, char *argv[]) {
     if (track_index >= 0) {
       cam_x_dest = universe.GetParticleX(track_index);
       cam_y_dest = universe.GetParticleY(track_index);
+			
+			//If wrap is enabled, moving camera other way if closer
+			if (universe.m_wrap) {
+				if (cam_x_dest - cam_x > window_w * 0.5f) {
+					cam_x_dest -= window_w;
+				} else if (cam_x_dest - cam_x < window_w * -0.5f) {
+					cam_x_dest += window_w;
+				}
+
+				if (cam_y_dest - cam_y > window_h * 0.5f) {
+					cam_y_dest -= window_h;
+				} else if (cam_y_dest - cam_y < window_h * -0.5f) {
+					cam_y_dest += window_h;
+				}
+			}
     }
     cam_x = cam_x*0.9f + cam_x_dest*0.1f;
     cam_y = cam_y*0.9f + cam_y_dest*0.1f;
     cam_zoom = cam_zoom*0.8f + cam_zoom_dest*0.2f;
     universe.Zoom(cam_x, cam_y, cam_zoom);
+
+		//Wrap camera position
+		if (universe.m_wrap) {
+			if (cam_x > window_w) {
+				cam_x -= window_w;
+				cam_x_dest -= window_w;
+			}
+			else if (cam_x < 0) {
+				cam_x += window_w;
+				cam_x_dest += window_w;
+			}
+
+			if (cam_y > window_h) {
+				cam_y -= window_h;
+				cam_y_dest -= window_h;
+			}
+			else if (cam_y < 0) {
+				cam_y += window_h;
+				cam_y_dest += window_h;
+			}
+		}
 
     //Apply physics and draw
     window.clear();

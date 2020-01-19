@@ -26,11 +26,12 @@ public:
 
   void PrintParams() const;
 
+	bool m_wrap;
+
 private:
   float m_center_x;
   float m_center_y;
   float m_zoom;
-  bool m_wrap;
 
   std::vector<Particle> m_particles;
   ParticleTypes m_types;
