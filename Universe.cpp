@@ -191,71 +191,67 @@ void Universe::Draw(sf::RenderWindow& window, float opacity) const {
   circle.setOrigin(circle.getRadius(), circle.getRadius());
   for (size_t i = 0; i < m_particles.size(); ++i) {
     const Particle& p = m_particles[i];
-    
-		float rel_x = p.x - m_center_x;
-		float rel_y = p.y - m_center_y;
-	
-		//Wrapping render position
-		if (m_wrap) {
-			if (rel_x > m_width * 0.5f) {
-				rel_x -= m_width;
-			} else if (rel_x < -m_width * 0.5f) {
-				rel_x += m_width;
-			}
 
-			if (rel_y > m_height * 0.5f) {
-				rel_y -= m_height;
-			}
-			else if (rel_y < -m_height * 0.5f) {
-				rel_y += m_height;
-			}
-		}
+    float rel_x = p.x - m_center_x;
+    float rel_y = p.y - m_center_y;
 
-		const float x = rel_x*m_zoom + float(m_width/2);
-    const float y = rel_y*m_zoom + float(m_height/2);
+    //Wrapping render position
+    if (m_wrap) {
+      if (rel_x > m_width * 0.5f) {
+        rel_x -= m_width;
+      } else if (rel_x < -m_width * 0.5f) {
+        rel_x += m_width;
+      }
+
+      if (rel_y > m_height * 0.5f) {
+        rel_y -= m_height;
+      } else if (rel_y < -m_height * 0.5f) {
+        rel_y += m_height;
+      }
+    }
+
+    const float x = rel_x * m_zoom + float(m_width / 2);
+    const float y = rel_y * m_zoom + float(m_height / 2);
     sf::Color col = m_types.Color(p.type);
     col.a = uint8_t(opacity * 255);
     circle.setFillColor(col);
 
-		//Drawing twice if halfway wrapped
-		if (m_wrap) {
-			const float zoomed_width = m_width * m_zoom;
-			const float zoomed_height = m_height * m_zoom;
-			if (rel_x > m_width * 0.5f - RADIUS) {
-				if (rel_y > m_height * 0.5f - RADIUS) {
-					circle.setPosition(x - zoomed_width, y - zoomed_height);
-					window.draw(circle);
-				}
-				else if (rel_y < m_height * 0.5f + RADIUS) {
-					circle.setPosition(x - zoomed_width, y + zoomed_height);
-					window.draw(circle);
-				}
-				circle.setPosition(x - zoomed_width, y);
-				window.draw(circle);
-			} else if (rel_x < m_width * 0.5f + RADIUS) {
-				if (rel_y > m_height * 0.5f - RADIUS) {
-					circle.setPosition(x + zoomed_width, y - zoomed_height);
-					window.draw(circle);
-				}
-				else if (rel_y < m_height * 0.5f + RADIUS) {
-					circle.setPosition(x + zoomed_width, y + zoomed_height);
-					window.draw(circle);
-				}
-				circle.setPosition(x + zoomed_width, y);
-				window.draw(circle);
-			}
+    //Drawing twice if halfway wrapped
+    if (m_wrap) {
+      const float zoomed_width = m_width * m_zoom;
+      const float zoomed_height = m_height * m_zoom;
+      if (rel_x > m_width * 0.5f - RADIUS) {
+        if (rel_y > m_height * 0.5f - RADIUS) {
+          circle.setPosition(x - zoomed_width, y - zoomed_height);
+          window.draw(circle);
+        } else if (rel_y < m_height * 0.5f + RADIUS) {
+          circle.setPosition(x - zoomed_width, y + zoomed_height);
+          window.draw(circle);
+        }
+        circle.setPosition(x - zoomed_width, y);
+        window.draw(circle);
+      } else if (rel_x < m_width * 0.5f + RADIUS) {
+        if (rel_y > m_height * 0.5f - RADIUS) {
+          circle.setPosition(x + zoomed_width, y - zoomed_height);
+          window.draw(circle);
+        } else if (rel_y < m_height * 0.5f + RADIUS) {
+          circle.setPosition(x + zoomed_width, y + zoomed_height);
+          window.draw(circle);
+        }
+        circle.setPosition(x + zoomed_width, y);
+        window.draw(circle);
+      }
 
-			if (rel_y > m_height * 0.5f - RADIUS) {
-				circle.setPosition(x, y - zoomed_height);
-				window.draw(circle);
-			}
-			else if (rel_y < m_height * 0.5f + RADIUS) {
-				circle.setPosition(x, y + zoomed_height);
-				window.draw(circle);
-			}
-		}
+      if (rel_y > m_height * 0.5f - RADIUS) {
+        circle.setPosition(x, y - zoomed_height);
+        window.draw(circle);
+      } else if (rel_y < m_height * 0.5f + RADIUS) {
+        circle.setPosition(x, y + zoomed_height);
+        window.draw(circle);
+      }
+    }
 
-		circle.setPosition(x, y);
+    circle.setPosition(x, y);
     window.draw(circle);
   }
 }
@@ -294,12 +290,12 @@ void Universe::Zoom(float cx, float cy, float zoom) {
   m_zoom = std::max(1.0f, zoom);
 
   //Clamp to make sure camera doesn't go out of bounds
-	if (!m_wrap) {
-		m_center_x = std::min(m_center_x, float(m_width) * (1.0f - 0.5f / m_zoom));
-		m_center_y = std::min(m_center_y, float(m_height) * (1.0f - 0.5f / m_zoom));
-		m_center_x = std::max(m_center_x, float(m_width) * (0.5f / m_zoom));
-		m_center_y = std::max(m_center_y, float(m_height) * (0.5f / m_zoom));
-	}
+  if (!m_wrap) {
+    m_center_x = std::min(m_center_x, float(m_width) * (1.0f - 0.5f / m_zoom));
+    m_center_y = std::min(m_center_y, float(m_height) * (1.0f - 0.5f / m_zoom));
+    m_center_x = std::max(m_center_x, float(m_width) * (0.5f / m_zoom));
+    m_center_y = std::max(m_center_y, float(m_height) * (0.5f / m_zoom));
+  }
 }
 
 void Universe::PrintParams() const {

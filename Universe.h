@@ -26,7 +26,7 @@ public:
 
   void PrintParams() const;
 
-	bool m_wrap;
+  bool m_wrap;
 
 private:
   float m_center_x;
