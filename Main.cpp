@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 
   //Create the window
   const sf::VideoMode screenSize = sf::VideoMode(window_w, window_h, 24);
-  sf::RenderWindow window(screenSize, "Particles", sf::Style::Resize | sf::Style::Close, settings);
+  sf::RenderWindow window(screenSize, "Particles", sf::Style::Close, settings);
   window.setFramerateLimit(30);
   window.setVerticalSyncEnabled(true);
   window.setActive(false);
