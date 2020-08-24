@@ -1,6 +1,7 @@
 #include "Universe.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <cstdio>
 
 static const int window_w = 1600;
 static const int window_h = 900;
@@ -37,7 +38,8 @@ int main(int argc, char *argv[]) {
   std::cout << " Right Click - Click anywhere to unfollow particle" << std::endl;
   std::cout << "Scroll Wheel - Zoom in/out" << std::endl;
   std::cout << std::endl;
-  system("pause");
+  std::cout << "Press enter to continue" << std::endl;
+  std::getchar();
 
   //Create the universe of particles
   Universe universe(9, 400, window_w, window_h);
