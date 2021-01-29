@@ -98,9 +98,9 @@ void Universe::Step() {
     Particle &p = m_particles[i];
 
     // Interactions
-    for (size_t j = 0; j < m_particles.size(); ++j) {
+    for (size_t j = i + 1; j < m_particles.size(); ++j) {
       // Other particle
-      const Particle &q = m_particles[j];
+      Particle &q = m_particles[j];
 
       // Get deltas
       float dx = q.x - p.x;
@@ -150,6 +150,26 @@ void Universe::Step() {
       // Apply force
       p.vx += f * dx;
       p.vy += f * dy;
+
+      // Now for the other particle
+      dx *= -1;
+      dy *= -1;
+      if (r > minR) {
+        if (m_flat_force) {
+          f = m_types.Attaract(q.type, p.type);
+        } else {
+          const float numer = 2.0f * std::abs(r - 0.5f * (maxR + minR));
+          const float denom = maxR - minR;
+          f = m_types.Attaract(q.type, p.type) * (1.0f - numer / denom);
+        }
+      } else {
+        f = R_SMOOTH * minR *
+            (1.0f / (minR + R_SMOOTH) - 1.0f / (r + R_SMOOTH));
+      }
+
+      // Apply force
+      q.vx += f * dx;
+      q.vy += f * dy;
     }
   }
 
