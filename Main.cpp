@@ -1,22 +1,29 @@
-#include "Universe.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+
+#include "Universe.h"
 
 static const int window_w = 1600;
 static const int window_h = 900;
 static const int steps_per_frame_normal = 10;
 
 int main(int argc, char *argv[]) {
-  std::cout << "=========================================================" << std::endl;
+  std::cout << "========================================================="
+            << std::endl;
   std::cout << std::endl;
   std::cout << "               Welcome to Particle Life" << std::endl;
   std::cout << std::endl;
-  std::cout << "  This is a particle-based game of life simulation based" << std::endl;
-  std::cout << "on random attraction and repulsion between all particle" << std::endl;
-  std::cout << "classes.  For more details about how this works and other" << std::endl;
-  std::cout << "fun projects, check out my YouTube channel 'CodeParade'." << std::endl;
+  std::cout << "  This is a particle-based game of life simulation based"
+            << std::endl;
+  std::cout << "on random attraction and repulsion between all particle"
+            << std::endl;
+  std::cout << "classes.  For more details about how this works and other"
+            << std::endl;
+  std::cout << "fun projects, check out my YouTube channel 'CodeParade'."
+            << std::endl;
   std::cout << std::endl;
-  std::cout << "=========================================================" << std::endl;
+  std::cout << "========================================================="
+            << std::endl;
   std::cout << std::endl;
   std::cout << "Controls:" << std::endl;
   std::cout << "         'B' - Randomize (Balanced)" << std::endl;
@@ -32,20 +39,22 @@ int main(int argc, char *argv[]) {
   std::cout << "         'W' - Toggle Wrap-Around" << std::endl;
   std::cout << "       Enter - Keep rules, but re-seed particles" << std::endl;
   std::cout << "       Space - Hold for slow-motion" << std::endl;
-  std::cout << "         Tab - Print current parameters to console" << std::endl;
+  std::cout << "         Tab - Print current parameters to console"
+            << std::endl;
   std::cout << "  Left Click - Click a particle to follow it" << std::endl;
-  std::cout << " Right Click - Click anywhere to unfollow particle" << std::endl;
+  std::cout << " Right Click - Click anywhere to unfollow particle"
+            << std::endl;
   std::cout << "Scroll Wheel - Zoom in/out" << std::endl;
   std::cout << std::endl;
   system("pause");
 
-  //Create the universe of particles
+  // Create the universe of particles
   Universe universe(9, 400, window_w, window_h);
   universe.ReSeed(-0.02f, 0.06f, 0.0f, 20.0f, 20.0f, 70.0f, 0.05f, false);
 
-  //Camera settings
-  float cam_x = float(window_w/2);
-  float cam_y = float(window_h/2);
+  // Camera settings
+  float cam_x = float(window_w / 2);
+  float cam_y = float(window_h / 2);
   float cam_zoom = 1.0f;
   float cam_x_dest = cam_x;
   float cam_y_dest = cam_y;
@@ -54,7 +63,7 @@ int main(int argc, char *argv[]) {
   int track_index = -1;
   int steps_per_frame = steps_per_frame_normal;
 
-  //GL settings
+  // GL settings
   sf::ContextSettings settings;
   settings.depthBits = 24;
   settings.stencilBits = 8;
@@ -62,7 +71,7 @@ int main(int argc, char *argv[]) {
   settings.majorVersion = 3;
   settings.minorVersion = 0;
 
-  //Create the window
+  // Create the window
   const sf::VideoMode screenSize = sf::VideoMode(window_w, window_h, 24);
   sf::RenderWindow window(screenSize, "Particles", sf::Style::Close, settings);
   window.setFramerateLimit(30);
@@ -71,7 +80,7 @@ int main(int argc, char *argv[]) {
   window.requestFocus();
   sf::Clock clock;
 
-  //Main Loop
+  // Main Loop
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -83,72 +92,80 @@ int main(int argc, char *argv[]) {
         if (keycode == sf::Keyboard::Escape) {
           window.close();
           break;
-        } else if (keycode == sf::Keyboard::B) { //Balanced
+        } else if (keycode == sf::Keyboard::B) {  // Balanced
           universe.SetPopulation(9, 400);
-          universe.ReSeed(-0.02f, 0.06f, 0.0f, 20.0f, 20.0f, 70.0f, 0.05f, false);
+          universe.ReSeed(-0.02f, 0.06f, 0.0f, 20.0f, 20.0f, 70.0f, 0.05f,
+                          false);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::C) { //Chaos
+        } else if (keycode == sf::Keyboard::C) {  // Chaos
           universe.SetPopulation(6, 400);
-          universe.ReSeed(0.02f, 0.04f, 0.0f, 30.0f, 30.0f, 100.0f, 0.01f, false);
+          universe.ReSeed(0.02f, 0.04f, 0.0f, 30.0f, 30.0f, 100.0f, 0.01f,
+                          false);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::D) { //Diversity
+        } else if (keycode == sf::Keyboard::D) {  // Diversity
           universe.SetPopulation(12, 400);
-          universe.ReSeed(-0.01f, 0.04f, 0.0f, 20.0f, 10.0f, 60.0f, 0.05f, true);
+          universe.ReSeed(-0.01f, 0.04f, 0.0f, 20.0f, 10.0f, 60.0f, 0.05f,
+                          true);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::F) { //Frictionless
+        } else if (keycode == sf::Keyboard::F) {  // Frictionless
           universe.SetPopulation(6, 300);
-          universe.ReSeed(0.01f, 0.005f, 10.0f, 10.0f, 10.0f, 60.0f, 0.0f, true);
+          universe.ReSeed(0.01f, 0.005f, 10.0f, 10.0f, 10.0f, 60.0f, 0.0f,
+                          true);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::G) { //Gliders
+        } else if (keycode == sf::Keyboard::G) {  // Gliders
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.0f, 0.06f, 0.0f, 20.0f, 10.0f, 50.0f, 0.1f, true);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::H) { //Homogeneity
+        } else if (keycode == sf::Keyboard::H) {  // Homogeneity
           universe.SetPopulation(4, 400);
           universe.ReSeed(0.0f, 0.04f, 10.0f, 10.0f, 10.0f, 80.0f, 0.05f, true);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::L) { //Large Clusters
+        } else if (keycode == sf::Keyboard::L) {  // Large Clusters
           universe.SetPopulation(6, 400);
-          universe.ReSeed(0.025f, 0.02f, 0.0f, 30.0f, 30.0f, 100.0f, 0.2f, false);
+          universe.ReSeed(0.025f, 0.02f, 0.0f, 30.0f, 30.0f, 100.0f, 0.2f,
+                          false);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::M) { //Medium Clusters
+        } else if (keycode == sf::Keyboard::M) {  // Medium Clusters
           universe.SetPopulation(6, 400);
-          universe.ReSeed(0.02f, 0.05f, 0.0f, 20.0f, 20.0f, 50.0f, 0.05f, false);
+          universe.ReSeed(0.02f, 0.05f, 0.0f, 20.0f, 20.0f, 50.0f, 0.05f,
+                          false);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::Q) { //Quiescence
+        } else if (keycode == sf::Keyboard::Q) {  // Quiescence
           universe.SetPopulation(6, 300);
-          universe.ReSeed(-0.02f, 0.1f, 10.0f, 20.0f, 20.0f, 60.0f, 0.2f, false);
+          universe.ReSeed(-0.02f, 0.1f, 10.0f, 20.0f, 20.0f, 60.0f, 0.2f,
+                          false);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::S) { //Small Clusters
+        } else if (keycode == sf::Keyboard::S) {  // Small Clusters
           universe.SetPopulation(6, 600);
-          universe.ReSeed(-0.005f, 0.01f, 10.0f, 10.0f, 20.0f, 50.0f, 0.01f, false);
+          universe.ReSeed(-0.005f, 0.01f, 10.0f, 10.0f, 20.0f, 50.0f, 0.01f,
+                          false);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
@@ -176,14 +193,15 @@ int main(int argc, char *argv[]) {
         cam_zoom_dest = std::max(std::min(cam_zoom_dest, 10.0f), 1.0f);
         const int32_t cur_time = clock.getElapsedTime().asMilliseconds();
         if (cur_time - last_scroll_time > 300) {
-          //Only update position if scroll just started
+          // Only update position if scroll just started
           const sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
           universe.ToCenter(mouse_pos.x, mouse_pos.y, cam_x_dest, cam_y_dest);
         }
         last_scroll_time = cur_time;
       } else if (event.type == sf::Event::MouseButtonPressed) {
         if (event.mouseButton.button == sf::Mouse::Left) {
-          track_index = universe.GetIndex(event.mouseButton.x, event.mouseButton.y);
+          track_index =
+              universe.GetIndex(event.mouseButton.x, event.mouseButton.y);
           if (track_index == -1) {
             const sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
             universe.ToCenter(mouse_pos.x, mouse_pos.y, cam_x_dest, cam_y_dest);
@@ -194,12 +212,12 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    //Apply zoom
+    // Apply zoom
     if (track_index >= 0) {
       cam_x_dest = universe.GetParticleX(track_index);
       cam_y_dest = universe.GetParticleY(track_index);
 
-      //If wrap is enabled, moving camera other way if closer
+      // If wrap is enabled, moving camera other way if closer
       if (universe.m_wrap) {
         if (cam_x_dest - cam_x > window_w * 0.5f) {
           cam_x_dest -= window_w;
@@ -219,7 +237,7 @@ int main(int argc, char *argv[]) {
     cam_zoom = cam_zoom * 0.8f + cam_zoom_dest * 0.2f;
     universe.Zoom(cam_x, cam_y, cam_zoom);
 
-    //Wrap camera position
+    // Wrap camera position
     if (universe.m_wrap) {
       if (cam_x > window_w) {
         cam_x -= window_w;
@@ -238,7 +256,7 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    //Apply physics and draw
+    // Apply physics and draw
     window.clear();
     for (int i = 0; i < steps_per_frame; ++i) {
       const float opacity = float(i + 1) / float(steps_per_frame);
@@ -246,7 +264,7 @@ int main(int argc, char *argv[]) {
       universe.Draw(window, opacity);
     }
 
-    //Flip the screen buffer
+    // Flip the screen buffer
     window.display();
   }
 

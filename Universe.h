@@ -1,16 +1,21 @@
 #pragma once
-#include "Particles.h"
 #include <random>
 
+#include "Particles.h"
+
 class Universe {
-public:
+ public:
   Universe(size_t num_types, size_t num_particles, int width, int height);
 
-  void ReSeed(float attract_mean, float attract_std, float minr_lower, float minr_upper,
-    float maxr_lower, float maxr_upper, float friction, bool flat_force);
+  void ReSeed(float attract_mean, float attract_std, float minr_lower,
+              float minr_upper, float maxr_lower, float maxr_upper,
+              float friction, bool flat_force);
 
   void SetPopulation(size_t num_types, size_t num_particles);
-  void SetSize(float width, float height) { m_width = width; m_height = height; }
+  void SetSize(float width, float height) {
+    m_width = width;
+    m_height = height;
+  }
   void SetRandomTypes();
   void SetRandomParticles();
   void ToggleWrap() { m_wrap = !m_wrap; }
@@ -28,7 +33,7 @@ public:
 
   bool m_wrap;
 
-private:
+ private:
   float m_center_x;
   float m_center_y;
   float m_zoom;
@@ -40,7 +45,7 @@ private:
 
   std::mt19937 m_rand_gen;
 
-  //Random settings
+  // Random settings
   float m_attract_mean;
   float m_attract_std;
   float m_minr_lower;
