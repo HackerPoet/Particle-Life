@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
         if (keycode == sf::Keyboard::Escape) {
           window.close();
           break;
-        } else if (keycode == sf::Keyboard::B) {  // Balanced
+        } else if (keycode == sf::Keyboard::B) { // Balanced
           universe.SetPopulation(9, 400);
           universe.ReSeed(-0.02f, 0.06f, 0.0f, 20.0f, 20.0f, 70.0f, 0.05f,
                           false);
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::C) {  // Chaos
+        } else if (keycode == sf::Keyboard::C) { // Chaos
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.02f, 0.04f, 0.0f, 30.0f, 30.0f, 100.0f, 0.01f,
                           false);
@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::D) {  // Diversity
+        } else if (keycode == sf::Keyboard::D) { // Diversity
           universe.SetPopulation(12, 400);
           universe.ReSeed(-0.01f, 0.04f, 0.0f, 20.0f, 10.0f, 60.0f, 0.05f,
                           true);
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::F) {  // Frictionless
+        } else if (keycode == sf::Keyboard::F) { // Frictionless
           universe.SetPopulation(6, 300);
           universe.ReSeed(0.01f, 0.005f, 10.0f, 10.0f, 10.0f, 60.0f, 0.0f,
                           true);
@@ -124,21 +124,21 @@ int main(int argc, char *argv[]) {
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::G) {  // Gliders
+        } else if (keycode == sf::Keyboard::G) { // Gliders
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.0f, 0.06f, 0.0f, 20.0f, 10.0f, 50.0f, 0.1f, true);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::H) {  // Homogeneity
+        } else if (keycode == sf::Keyboard::H) { // Homogeneity
           universe.SetPopulation(4, 400);
           universe.ReSeed(0.0f, 0.04f, 10.0f, 10.0f, 10.0f, 80.0f, 0.05f, true);
           track_index = -1;
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::L) {  // Large Clusters
+        } else if (keycode == sf::Keyboard::L) { // Large Clusters
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.025f, 0.02f, 0.0f, 30.0f, 30.0f, 100.0f, 0.2f,
                           false);
@@ -146,7 +146,7 @@ int main(int argc, char *argv[]) {
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::M) {  // Medium Clusters
+        } else if (keycode == sf::Keyboard::M) { // Medium Clusters
           universe.SetPopulation(6, 400);
           universe.ReSeed(0.02f, 0.05f, 0.0f, 20.0f, 20.0f, 50.0f, 0.05f,
                           false);
@@ -154,7 +154,7 @@ int main(int argc, char *argv[]) {
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::Q) {  // Quiescence
+        } else if (keycode == sf::Keyboard::Q) { // Quiescence
           universe.SetPopulation(6, 300);
           universe.ReSeed(-0.02f, 0.1f, 10.0f, 20.0f, 20.0f, 60.0f, 0.2f,
                           false);
@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
           cam_x_dest = window_w * 0.5f;
           cam_y_dest = window_h * 0.5f;
           cam_zoom_dest = 1.0f;
-        } else if (keycode == sf::Keyboard::S) {  // Small Clusters
+        } else if (keycode == sf::Keyboard::S) { // Small Clusters
           universe.SetPopulation(6, 600);
           universe.ReSeed(-0.005f, 0.01f, 10.0f, 10.0f, 20.0f, 50.0f, 0.01f,
                           false);

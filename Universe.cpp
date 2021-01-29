@@ -79,7 +79,7 @@ void Universe::SetRandomParticles() {
   std::uniform_real_distribution<float> rand_uni(0.0f, 1.0f);
   std::normal_distribution<float> rand_norm(0.0f, 1.0f);
   for (size_t i = 0; i < m_particles.size(); ++i) {
-    Particle& p = m_particles[i];
+    Particle &p = m_particles[i];
     p.type = uint8_t(rand_type(m_rand_gen));
     p.x =
         (m_wrap ? rand_uni(m_rand_gen) : rand_uni(m_rand_gen) * 0.5f + 0.25f) *
@@ -95,12 +95,12 @@ void Universe::SetRandomParticles() {
 void Universe::Step() {
   for (size_t i = 0; i < m_particles.size(); ++i) {
     // Current particle
-    Particle& p = m_particles[i];
+    Particle &p = m_particles[i];
 
     // Interactions
     for (size_t j = 0; j < m_particles.size(); ++j) {
       // Other particle
-      const Particle& q = m_particles[j];
+      const Particle &q = m_particles[j];
 
       // Get deltas
       float dx = q.x - p.x;
@@ -156,7 +156,7 @@ void Universe::Step() {
   // Update position
   for (size_t i = 0; i < m_particles.size(); ++i) {
     // Current particle
-    Particle& p = m_particles[i];
+    Particle &p = m_particles[i];
 
     // Update position and velocity
     p.x += p.vx;
@@ -195,12 +195,12 @@ void Universe::Step() {
   }
 }
 
-void Universe::Draw(sf::RenderWindow& window, float opacity) const {
+void Universe::Draw(sf::RenderWindow &window, float opacity) const {
   sf::CircleShape circle;
   circle.setRadius(RADIUS * m_zoom);
   circle.setOrigin(circle.getRadius(), circle.getRadius());
   for (size_t i = 0; i < m_particles.size(); ++i) {
-    const Particle& p = m_particles[i];
+    const Particle &p = m_particles[i];
 
     float rel_x = p.x - m_center_x;
     float rel_y = p.y - m_center_y;
@@ -283,7 +283,7 @@ float Universe::GetParticleX(int index) const { return m_particles[index].x; }
 
 float Universe::GetParticleY(int index) const { return m_particles[index].y; }
 
-void Universe::ToCenter(int x, int y, float& cx, float& cy) const {
+void Universe::ToCenter(int x, int y, float &cx, float &cy) const {
   cx = m_center_x + float(x - m_width / 2) / m_zoom;
   cy = m_center_y + float(y - m_height / 2) / m_zoom;
 }

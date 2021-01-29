@@ -4,7 +4,7 @@
 #include "Particles.h"
 
 class Universe {
- public:
+public:
   Universe(size_t num_types, size_t num_particles, int width, int height);
 
   void ReSeed(float attract_mean, float attract_std, float minr_lower,
@@ -21,19 +21,19 @@ class Universe {
   void ToggleWrap() { m_wrap = !m_wrap; }
 
   void Step();
-  void Draw(sf::RenderWindow& window, float opacity) const;
+  void Draw(sf::RenderWindow &window, float opacity) const;
   void Zoom(float cx, float cy, float zoom);
 
   int GetIndex(int x, int y) const;
   float GetParticleX(int index) const;
   float GetParticleY(int index) const;
-  void ToCenter(int x, int y, float& cx, float& cy) const;
+  void ToCenter(int x, int y, float &cx, float &cy) const;
 
   void PrintParams() const;
 
   bool m_wrap;
 
- private:
+private:
   float m_center_x;
   float m_center_y;
   float m_zoom;
